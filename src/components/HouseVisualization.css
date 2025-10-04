@@ -1,0 +1,38 @@
+.house-svg {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.house-part {
+  stroke: #333;
+  stroke-width: 2px;
+  transition: transform 0.2s ease, fill 0.2s ease;
+}
+
+.house-part:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.roof {
+  cursor: pointer;
+}
+
+.window {
+  cursor: pointer;
+}
+
+.door {
+  cursor: pointer;
+}
+
+.exterior {
+  cursor: pointer;
+}
+.chimney {
+  cursor: pointer;
+}

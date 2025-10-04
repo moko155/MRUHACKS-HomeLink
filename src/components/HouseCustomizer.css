@@ -1,0 +1,55 @@
+.customizer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.customizer-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.customizer-label {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.customizer-select,
+.customizer-color,
+.customizer-textarea {
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.customizer-textarea {
+  resize: vertical;
+}
+
+.customizer-close-btn {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.customizer-close-btn:hover {
+  background-color: #1e40af;
+}
+.customizer-close-btn:active {
+  background-color: #1e3a8a;
+}
