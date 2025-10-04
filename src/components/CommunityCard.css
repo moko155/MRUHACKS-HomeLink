@@ -1,0 +1,114 @@
+.community-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 200px;
+}
+
+.community-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.community-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.community-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.community-description {
+  color: #7f8c8d;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.community-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.member-count {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #95a5a6;
+}
+
+.member-icon {
+  font-size: 16px;
+}
+
+.btn-join,
+.btn-joined {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-join {
+  background: #3498db;
+  color: white;
+}
+
+.btn-join:hover {
+  background: #2980b9;
+  transform: scale(1.05);
+}
+
+.btn-joined {
+  background: #27ae60;
+  color: white;
+}
+
+.btn-joined:hover {
+  background: #229954;
+}
+
+.btn-join:active,
+.btn-joined:active {
+  transform: scale(0.98);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .community-card {
+    padding: 18px;
+  }
+
+  .community-name {
+    font-size: 18px;
+  }
+
+  .community-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-join,
+  .btn-joined {
+    width: 100%;
+  }
+}
