@@ -34,7 +34,7 @@ const CommunityCard = ({ community, joined, onJoin, onLeave }: Props) => {
         'div',
         { className: 'member-count' },
         createElement('span', { className: 'member-icon' }, '👥'),
-        createElement('span', null, ${community.memberCount} members)
+  createElement('span', null, `${community.memberCount} members`)
       ),
       createElement(
         'button',
