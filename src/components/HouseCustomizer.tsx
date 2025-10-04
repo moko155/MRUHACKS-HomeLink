@@ -1,100 +1,125 @@
-import * as React from "react";
-import { ChangeEvent } from "react";
-import "./HouseCustomizer.css";
+import { createElement } from 'react';
+import { HouseCustomization } from '../types';
+import './HouseCustomizer.css';
 
-interface HouseCustomizerProps {
-  part: "roof" | "window" | "door" | "exterior";
-  values: {
-    shape: string;
-    color: string;
-    texture: string;
-    content: string;
-  };
-  onChange: (updatedValues: {
-    shape: string;
-    color: string;
-    texture: string;
-    content: string;
-  }) => void;
-  onClose: () => void;
+interface Props {
+  house: HouseCustomization;
+  onUpdate: (house: HouseCustomization) => void;
 }
 
-const HouseCustomizer: React.FC<HouseCustomizerProps> = ({
-  part,
-  values,
-  onChange,
-  onClose,
-}) => {
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    onChange({ ...values, [name]: value });
+const HouseCustomizer = ({ house, onUpdate }: Props) => {
+  const updateColor = (part: 'roof' | 'window' | 'door', color: string) => {
+    onUpdate({
+      ...house,
+      [part]: { ...house[part], color }
+    });
   };
 
-  return (
-    React.createElement("div", { className: "customizer-container" }, [
-      React.createElement("h2", { key: "title", className: "customizer-title" }, `Customize ${part}`),
+  const updateTexture = (part: 'roof' | 'window' | 'door', texture: string) => {
+    onUpdate({
+      ...house,
+      [part]: { ...house[part], texture }
+    });
+  };
 
-      // Shape selector
-      React.createElement("label", { key: "shape-label", className: "customizer-label" }, "Shape"),
-      React.createElement("select", {
-        key: "shape-input",
-        name: "shape",
-        value: values.shape,
-        onChange: handleInputChange,
-        className: "customizer-select",
-      }, [
-        React.createElement("option", { key: "default", value: "" }, "Select shape"),
-        React.createElement("option", { key: "opt1", value: "triangle" }, "Triangle"),
-        React.createElement("option", { key: "opt2", value: "square" }, "Square"),
-        React.createElement("option", { key: "opt3", value: "arched" }, "Arched"),
-      ]),
+  const updateShape = (part: 'roof' | 'window' | 'door', shape: string) => {
+    onUpdate({
+      ...house,
+      [part]: { ...house[part], shape }
+    });
+  };
 
-      // Color input
-      React.createElement("label", { key: "color-label", className: "customizer-label" }, "Color"),
-      React.createElement("input", {
-        key: "color-input",
-        type: "color",
-        name: "color",
-        value: values.color,
-        onChange: handleInputChange,
-        className: "customizer-color",
-      }),
+  // Texture options for each part
+  const roofTextures = ['solid', 'shingles', 'tiles', 'metal'];
+  const windowTextures = ['solid', 'glass', 'brick'];
+  const doorTextures = ['solid', 'wood', 'metal'];
 
-      // Texture selector
-      React.createElement("label", { key: "texture-label", className: "customizer-label" }, "Texture"),
-      React.createElement("select", {
-        key: "texture-input",
-        name: "texture",
-        value: values.texture,
-        onChange: handleInputChange,
-        className: "customizer-select",
-      }, [
-        React.createElement("option", { key: "none", value: "" }, "None"),
-        React.createElement("option", { key: "wood", value: "wood" }, "Wood"),
-        React.createElement("option", { key: "brick", value: "brick" }, "Brick"),
-        React.createElement("option", { key: "tiles", value: "tiles" }, "Tiles"),
-      ]),
+  // Shape options for each part
+  const roofShapes = ['triangle', 'flat', 'curved', 'steep'];
+  const windowShapes = ['square', 'circle', 'arched', 'wide'];
+  const doorShapes = ['rectangle', 'arched', 'rounded', 'double'];
 
-      // Content input
-      React.createElement("label", { key: "content-label", className: "customizer-label" }, "Content"),
-      React.createElement("textarea", {
-        key: "content-input",
-        name: "content",
-        value: values.content,
-        onChange: handleInputChange,
-        className: "customizer-textarea",
-        rows: 3,
-      }),
+  const createCustomizerSection = (
+    title: string,
+    part: 'roof' | 'window' | 'door',
+    textures: string[],
+    shapes: string[]
+  ) => {
+    return createElement(
+      'div',
+      { className: 'customizer-section' },
+      createElement('h3', null, title),
 
-      // Close button
-      React.createElement("button", {
-        key: "close-button",
-        onClick: onClose,
-        className: "customizer-close-btn",
-      }, "Close"),
-    ])
+      // Color Picker
+      createElement(
+        'div',
+        { className: 'customizer-control' },
+        createElement('label', null, 'Color:'),
+        createElement('input', {
+          type: 'color',
+          value: house[part].color,
+          onChange: (e: any) => updateColor(part, e.target.value),
+          className: 'color-picker'
+        })
+      ),
+
+      // Texture Selector
+      createElement(
+        'div',
+        { className: 'customizer-control' },
+        createElement('label', null, 'Texture:'),
+        createElement(
+          'select',
+          {
+            value: house[part].texture,
+            onChange: (e: any) => updateTexture(part, e.target.value),
+            className: 'select-dropdown'
+          },
+          ...textures.map(texture =>
+            createElement(
+              'option',
+              { key: texture, value: texture },
+              texture.charAt(0).toUpperCase() + texture.slice(1)
+            )
+          )
+        )
+      ),
+
+      // Shape Selector
+      createElement(
+        'div',
+        { className: 'customizer-control' },
+        createElement('label', null, 'Shape:'),
+        createElement(
+          'select',
+          {
+            value: house[part].shape,
+            onChange: (e: any) => updateShape(part, e.target.value),
+            className: 'select-dropdown'
+          },
+          ...shapes.map(shape =>
+            createElement(
+              'option',
+              { key: shape, value: shape },
+              shape.charAt(0).toUpperCase() + shape.slice(1)
+            )
+          )
+        )
+      )
+    );
+  };
+
+  return createElement(
+    'div',
+    { className: 'house-customizer' },
+    createElement('h2', { className: 'customizer-title' }, '🎨 Customize Your House'),
+    createElement(
+      'div',
+      { className: 'customizer-grid' },
+      createCustomizerSection('🏠 Roof', 'roof', roofTextures, roofShapes),
+      createCustomizerSection('🪟 Window', 'window', windowTextures, windowShapes),
+      createCustomizerSection('🚪 Door', 'door', doorTextures, doorShapes)
+    )
   );
 };
 
