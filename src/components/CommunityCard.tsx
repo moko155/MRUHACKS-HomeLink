@@ -1,5 +1,6 @@
 import { Community } from '../types';
 import './CommunityCard.css';
+import { createElement } from 'react';
 
 interface Props {
   community: Community;
@@ -17,28 +18,33 @@ const CommunityCard = ({ community, joined, onJoin, onLeave }: Props) => {
     }
   };
 
-  return (
-    <div className="community-card">
-      <div className="community-card-header">
-        <h3 className="community-name">{community.name}</h3>
-      </div>
-
-      <p className="community-description">{community.description}</p>
-
-      <div className="community-footer">
-        <div className="member-count">
-          <span className="member-icon">👥</span>
-          <span>{community.memberCount} members</span>
-        </div>
-
-        <button 
-          className={joined ? 'btn-joined' : 'btn-join'}
-          onClick={handleClick}
-        >
-          {joined ? 'Joined ✓' : 'Join Community'}
-        </button>
-      </div>
-    </div>
+  return createElement(
+    'div',
+    { className: 'community-card' },
+    createElement(
+      'div',
+      { className: 'community-card-header' },
+      createElement('h3', { className: 'community-name' }, community.name)
+    ),
+    createElement('p', { className: 'community-description' }, community.description),
+    createElement(
+      'div',
+      { className: 'community-footer' },
+      createElement(
+        'div',
+        { className: 'member-count' },
+        createElement('span', { className: 'member-icon' }, '👥'),
+        createElement('span', null, ${community.memberCount} members)
+      ),
+      createElement(
+        'button',
+        {
+          className: joined ? 'btn-joined' : 'btn-join',
+          onClick: handleClick
+        },
+        joined ? 'Joined ✓' : 'Join Community'
+      )
+    )
   );
 };
 
