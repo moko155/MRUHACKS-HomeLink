@@ -1,13 +1,33 @@
+// Import createElement for manual element creation (no JSX syntax used)
 import { createElement } from 'react';
+
+// Import the HouseCustomization type definition
 import { HouseCustomization } from '../types';
+
+// Import component-specific CSS styling
 import './HouseCustomizer.css';
 
+// Define the expected props for the HouseCustomizer component
 interface Props {
-  house: HouseCustomization;
-  onUpdate: (house: HouseCustomization) => void;
+  house: HouseCustomization;                 // Current customization state of the house
+  onUpdate: (house: HouseCustomization) => void; // Callback triggered when the house customization updates
 }
 
+/**
+ * HouseCustomizer Component
+ * -------------------------
+ * This component allows the user to customize various parts of a house
+ * (roof, windows, doors) by adjusting their color, texture, and shape.
+ * It dynamically renders a customization panel for each section.
+ */
 const HouseCustomizer = ({ house, onUpdate }: Props) => {
+
+  /**
+   * updateColor()
+   * -------------
+   * Updates the color property for a specific house part
+   * and triggers the onUpdate callback to propagate changes.
+   */
   const updateColor = (part: 'roof' | 'window' | 'door', color: string) => {
     onUpdate({
       ...house,
@@ -15,6 +35,12 @@ const HouseCustomizer = ({ house, onUpdate }: Props) => {
     });
   };
 
+  /**
+   * updateTexture()
+   * ---------------
+   * Updates the texture property (e.g., metal, wood, glass)
+   * for a specific house part.
+   */
   const updateTexture = (part: 'roof' | 'window' | 'door', texture: string) => {
     onUpdate({
       ...house,
@@ -22,6 +48,12 @@ const HouseCustomizer = ({ house, onUpdate }: Props) => {
     });
   };
 
+  /**
+   * updateShape()
+   * -------------
+   * Updates the shape property (e.g., arched, flat, curved)
+   * for a specific house part.
+   */
   const updateShape = (part: 'roof' | 'window' | 'door', shape: string) => {
     onUpdate({
       ...house,
@@ -29,16 +61,31 @@ const HouseCustomizer = ({ house, onUpdate }: Props) => {
     });
   };
 
-  // Texture options for each part
+  // ==========================
+  // Dropdown option definitions
+  // ==========================
+
+  // Available texture options per house section
   const roofTextures = ['solid', 'shingles', 'tiles', 'metal'];
   const windowTextures = ['solid', 'glass', 'brick'];
   const doorTextures = ['solid', 'wood', 'metal'];
 
-  // Shape options for each part
+  // Available shape options per house section
   const roofShapes = ['triangle', 'flat', 'curved', 'steep'];
   const windowShapes = ['square', 'circle', 'arched', 'wide'];
   const doorShapes = ['rectangle', 'arched', 'rounded', 'double'];
 
+  /**
+   * createCustomizerSection()
+   * -------------------------
+   * Generates a full section of the customizer UI for one part of the house.
+   * Includes color picker, texture selector, and shape selector.
+   *
+   * @param title - Section title (e.g., "Roof", "Door")
+   * @param part - The house part being customized
+   * @param textures - Available texture options
+   * @param shapes - Available shape options
+   */
   const createCustomizerSection = (
     title: string,
     part: 'roof' | 'window' | 'door',
@@ -48,9 +95,11 @@ const HouseCustomizer = ({ house, onUpdate }: Props) => {
     return createElement(
       'div',
       { className: 'customizer-section' },
+
+      // Section Title
       createElement('h3', null, title),
 
-      // Color Picker
+      // ---- Color Picker ----
       createElement(
         'div',
         { className: 'customizer-control' },
@@ -63,7 +112,7 @@ const HouseCustomizer = ({ house, onUpdate }: Props) => {
         })
       ),
 
-      // Texture Selector
+      // ---- Texture Selector ----
       createElement(
         'div',
         { className: 'customizer-control' },
@@ -75,6 +124,7 @@ const HouseCustomizer = ({ house, onUpdate }: Props) => {
             onChange: (e: any) => updateTexture(part, e.target.value),
             className: 'select-dropdown'
           },
+          // Dynamically render each texture as an <option>
           ...textures.map(texture =>
             createElement(
               'option',
@@ -85,7 +135,7 @@ const HouseCustomizer = ({ house, onUpdate }: Props) => {
         )
       ),
 
-      // Shape Selector
+      // ---- Shape Selector ----
       createElement(
         'div',
         { className: 'customizer-control' },
@@ -97,6 +147,7 @@ const HouseCustomizer = ({ house, onUpdate }: Props) => {
             onChange: (e: any) => updateShape(part, e.target.value),
             className: 'select-dropdown'
           },
+          // Dynamically render each shape as an <option>
           ...shapes.map(shape =>
             createElement(
               'option',
@@ -109,10 +160,26 @@ const HouseCustomizer = ({ house, onUpdate }: Props) => {
     );
   };
 
+  /**
+   * Component Structure:
+   * --------------------
+   * <div class="house-customizer">
+   *   <h2 class="customizer-title">🎨 Customize Your House</h2>
+   *   <div class="customizer-grid">
+   *     {Roof Section}
+   *     {Window Section}
+   *     {Door Section}
+   *   </div>
+   * </div>
+   */
   return createElement(
     'div',
     { className: 'house-customizer' },
+
+    // Main Title
     createElement('h2', { className: 'customizer-title' }, '🎨 Customize Your House'),
+
+    // Grid container for all sections
     createElement(
       'div',
       { className: 'customizer-grid' },
@@ -123,4 +190,5 @@ const HouseCustomizer = ({ house, onUpdate }: Props) => {
   );
 };
 
+// Export the component for use in the main app
 export default HouseCustomizer;
