@@ -3,12 +3,13 @@ import HouseVisualization from '../components/HouseVisualization';
 import HouseCustomizer from '../components/HouseCustomizer';
 import { Profile as ProfileType, HouseCustomization } from '../types';
 import './Profile.css';
+import introPhoto from '../images/1-intro-photo-final.jpg';
 
 const Profile = () => {
   const [profile, setProfile] = useState<ProfileType>({
     id: '1',
     name: 'John Doe',
-    profilePicture: 'https://via.placeholder.com/150',
+    profilePicture: introPhoto,
     house: {
       roof: { color: '#8B4513', texture: 'shingles', shape: 'triangle' },
       window: { color: '#87CEEB', texture: 'glass', shape: 'square' },
