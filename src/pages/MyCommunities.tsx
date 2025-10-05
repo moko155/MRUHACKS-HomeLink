@@ -121,204 +121,159 @@
 //   );
 // };
 
-// export default MyCommunities;
-/**
- * Explore.tsx
- * 
- * This component allows users to browse and discover various online communities.
- * Users can search communities by name or description, view details, and choose to join or leave any community.
- * 
- * It uses state to manage:
- *  - The user's search query
- *  - The full list of available communities
- *  - The set of communities the user has joined
- */
 
+// Import necessary React features and components
 import { useState, createElement } from 'react';
 import CommunityCard from '../components/CommunityCard';
 import { Community } from '../types';
-import './Explore.css';
+import './MyCommunities.css';
 
-const Explore = () => {
-  // Local state for search bar input
-  const [searchQuery, setSearchQuery] = useState('');
+// Component: MyCommunities
+// Description: Displays all communities the user is currently part of, 
+// along with key statistics and the ability to leave communities.
+const MyCommunities = () => {
 
-  // Static list of all available communities (mock data for demonstration)
-  const [allCommunities] = useState<Community[]>([
+  // Define state variable to hold the list of user's joined communities
+  const [myCommunities, setMyCommunities] = useState<Community[]>([
     {
       id: '1',
-      name: 'Fitness Freaks',
-      description: 'Health and fitness enthusiasts sharing workout tips, nutrition advice, and motivation.',
-      memberCount: 301
+      name: 'Coders Unite',
+      description: 'A community for developers to share knowledge, collaborate on projects, and discuss programming.',
+      memberCount: 150
     },
     {
       id: '2',
-      name: 'Art Gallery',
-      description: 'Share your artwork, get feedback, and connect with fellow artists and creators.',
-      memberCount: 178
+      name: 'Book Lovers',
+      description: 'Share and discuss your favorite books, join reading challenges, and discover new authors.',
+      memberCount: 89
     },
     {
       id: '3',
-      name: 'Music Lovers',
-      description: 'All genres welcome! Discuss your favorite artists, share playlists, and discover new music.',
-      memberCount: 445
-    },
-    {
-      id: '4',
-      name: 'Travel Bugs',
-      description: 'Travel stories, tips, destination recommendations, and adventure planning.',
-      memberCount: 267
-    },
-    {
-      id: '5',
-      name: 'Tech Innovators',
-      description: 'Discuss the latest technology trends, gadgets, programming, and innovation.',
-      memberCount: 532
-    },
-    {
-      id: '6',
-      name: 'Food Critics',
-      description: 'Share recipes, restaurant reviews, cooking tips, and culinary adventures.',
-      memberCount: 389
-    },
-    {
-      id: '7',
-      name: 'Book Worms',
-      description: 'Book recommendations, reading challenges, author discussions, and literary debates.',
-      memberCount: 412
-    },
-    {
-      id: '8',
-      name: 'Nature Enthusiasts',
-      description: 'Hiking, camping, wildlife photography, and environmental conservation.',
+      name: 'Gamers Hub',
+      description: 'Gaming enthusiasts unite! Discuss the latest games, share strategies, and find teammates.',
       memberCount: 234
     },
     {
-      id: '9',
-      name: 'Film Buffs',
-      description: 'Movie reviews, film theory discussions, and recommendations across all genres.',
-      memberCount: 298
-    },
-    {
-      id: '10',
-      name: 'Pet Parents',
-      description: 'Share adorable pet photos, training tips, and advice for all pet owners.',
-      memberCount: 521
-    },
-    {
-      id: '11',
-      name: 'DIY Crafters',
-      description: 'Home improvement projects, crafting ideas, and creative DIY tutorials.',
-      memberCount: 367
-    },
-    {
-      id: '12',
-      name: 'Yoga & Meditation',
-      description: 'Practice mindfulness, share yoga routines, and find inner peace together.',
-      memberCount: 189
+      id: '4',
+      name: 'Photography Club',
+      description: 'Share your photos, get feedback, learn new techniques, and appreciate visual artistry.',
+      memberCount: 112
     }
   ]);
 
-  // Track the set of communities the user has joined
-  const [joinedCommunities, setJoinedCommunities] = useState<Set<string>>(new Set());
-
-  /**
-   * Adds a community to the user's joined list
-   * @param communityId - ID of the community to join
-   */
-  const handleJoin = (communityId: string) => {
-    setJoinedCommunities(prev => {
-      const newSet = new Set(prev);
-      newSet.add(communityId);
-      return newSet;
-    });
-  };
-
-  /**
-   * Removes a community from the user's joined list
-   * @param communityId - ID of the community to leave
-   */
+  // Function to handle when a user leaves a community
+  // Filters out the community with the given ID from the state list
   const handleLeave = (communityId: string) => {
-    setJoinedCommunities(prev => {
-      const newSet = new Set(prev);
-      newSet.delete(communityId);
-      return newSet;
-    });
+    setMyCommunities(prev => prev.filter(c => c.id !== communityId));
   };
 
-  /**
-   * Filters the list of communities based on the user's search query.
-   * Matches against both name and description.
-   */
-  const filteredCommunities = allCommunities.filter(community =>
-    community.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    community.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  // Render the Explore page UI
+  // Return the JSX using React.createElement instead of JSX syntax
   return createElement(
     'div',
-    { className: 'explore-page' },
+    { className: 'my-communities-page' },
 
-    // Page header
+    // --- Header Section ---
     createElement(
       'div',
-      { className: 'explore-header' },
-      createElement('h1', { className: 'explore-title' }, '🔍 Explore New Communities'),
-      createElement('p', { className: 'explore-subtitle' },
-        'Discover communities that match your interests and connect with like-minded people'
-      )
-    ),
-
-    // Search bar for filtering communities
-    createElement(
-      'div',
-      { className: 'search-container' },
-      createElement('input', {
-        type: 'text',
-        placeholder: 'Search communities by name or interest...',
-        className: 'search-bar',
-        value: searchQuery,
-        onChange: (e: any) => setSearchQuery(e.target.value)
-      }),
-      createElement('div', { className: 'search-icon' }, '🔍')
-    ),
-
-    // Display how many communities are currently shown
-    createElement(
-      'div',
-      { className: 'results-info' },
+      { className: 'my-communities-header' },
+      createElement('h1', { className: 'my-communities-title' }, '👥 My Communities'),
       createElement(
         'p',
-        null,
-        `Showing ${filteredCommunities.length} ${filteredCommunities.length === 1 ? 'community' : 'communities'}`
+        { className: 'my-communities-subtitle' },
+        `You are a member of ${myCommunities.length} ${myCommunities.length === 1 ? 'community' : 'communities'}`
       )
     ),
 
-    // Grid of CommunityCard components for each community
-    filteredCommunities.length > 0
+    // --- Statistics Section ---
+    createElement(
+      'div',
+      { className: 'stats-container' },
+
+      // Total communities joined
+      createElement(
+        'div',
+        { className: 'stat-card' },
+        createElement('div', { className: 'stat-icon' }, '🏘️'),
+        createElement(
+          'div',
+          { className: 'stat-content' },
+          createElement('h3', { className: 'stat-number' }, myCommunities.length),
+          createElement('p', { className: 'stat-label' }, 'Communities Joined')
+        )
+      ),
+
+      // Total number of members across all joined communities
+      createElement(
+        'div',
+        { className: 'stat-card' },
+        createElement('div', { className: 'stat-icon' }, '👤'),
+        createElement(
+          'div',
+          { className: 'stat-content' },
+          createElement(
+            'h3',
+            { className: 'stat-number' },
+            myCommunities.reduce((sum, c) => sum + c.memberCount, 0) // Sum of all member counts
+          ),
+          createElement('p', { className: 'stat-label' }, 'Total Members')
+        )
+      ),
+
+      // Placeholder for active member status
+      createElement(
+        'div',
+        { className: 'stat-card' },
+        createElement('div', { className: 'stat-icon' }, '⭐'),
+        createElement(
+          'div',
+          { className: 'stat-content' },
+          createElement('h3', { className: 'stat-number' }, 'Active'),
+          createElement('p', { className: 'stat-label' }, 'Member Status')
+        )
+      )
+    ),
+
+    // --- Communities Display Section ---
+    // If user has joined any communities
+    myCommunities.length > 0
       ? createElement(
           'div',
-          { className: 'communities-grid' },
-          ...filteredCommunities.map(community =>
-            createElement(CommunityCard, {
-              key: community.id,
-              community: community,
-              joined: joinedCommunities.has(community.id),
-              onJoin: () => handleJoin(community.id),
-              onLeave: () => handleLeave(community.id)
-            })
+          { className: 'communities-section' },
+          createElement('h2', { className: 'section-title' }, 'Your Communities'),
+          createElement(
+            'div',
+            { className: 'communities-grid' },
+            // Map through communities and render a CommunityCard for each
+            ...myCommunities.map(community =>
+              createElement(CommunityCard, {
+                key: community.id,
+                community: community,
+                joined: true, // Indicates the user is already a member
+                onLeave: () => handleLeave(community.id) // Event handler for leaving
+              })
+            )
           )
         )
-      // No results message if no matches found
+
+      // --- Empty State Section ---
+      // If user has not joined any communities yet
       : createElement(
           'div',
-          { className: 'no-results' },
-          createElement('div', { className: 'no-results-icon' }, '🔍'),
-          createElement('h3', null, 'No communities found'),
-          createElement('p', null, 'Try searching with different keywords')
+          { className: 'empty-state' },
+          createElement('div', { className: 'empty-icon' }, '🏘️'),
+          createElement('h3', null, 'No Communities Yet'),
+          createElement('p', null, 'Explore new communities to get started!'),
+          createElement(
+            'button',
+            {
+              className: 'explore-button',
+              onClick: () => (window.location.href = '/explore') // Redirect to Explore page
+            },
+            '🔍 Explore Communities'
+          )
         )
   );
 };
 
-export default Explore;
+// Export the component as the default export
+export default MyCommunities;
